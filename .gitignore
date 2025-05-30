@@ -1,2 +1,4 @@
 /nodemodules
 .gitignore
+/generated/prisma
+.env
