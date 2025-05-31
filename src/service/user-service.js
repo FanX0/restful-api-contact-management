@@ -88,4 +88,5 @@ const get = async (username) => {
 export default {
     register,
     login,
+    get,
 }
