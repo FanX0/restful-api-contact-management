@@ -1,6 +1,6 @@
 import supertest from "supertest";
 import {web} from "../src/application/web.js";
-import {removeTestUser} from "./test-util.js";
+import {removeTestUser,createTestUser} from "./test-util.js";
 import {logger} from "../src/application/logging.js";
 
 
