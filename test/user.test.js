@@ -39,4 +39,34 @@ describe('POST /api/users', function () {
         expect(result.status).toBe(400);
         expect(result.body.errors).toBeDefined();
     });
+
+    it('should reject if username already registered', async () => {
+        let result = await supertest(web)
+            .post('/api/users')
+            .send({
+                username: 'test',
+                password: 'rahasia',
+                name: 'test'
+            });
+
+        logger.info(result.body);
+
+        expect(result.status).toBe(200);
+        expect(result.body.data.username).toBe("test");
+        expect(result.body.data.name).toBe("test");
+        expect(result.body.data.password).toBeUndefined();
+
+        result = await supertest(web)
+            .post('/api/users')
+            .send({
+                username: 'test',
+                password: 'rahasia',
+                name: 'test'
+            });
+
+        logger.info(result.body);
+
+        expect(result.status).toBe(400);
+        expect(result.body.errors).toBeDefined();
+    });
 });
