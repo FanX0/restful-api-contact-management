@@ -54,4 +54,5 @@ export default {
     register,
     login,
     get,
+    update,
 }
