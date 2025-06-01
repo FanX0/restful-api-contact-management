@@ -182,13 +182,13 @@ describe('PATCH /api/users/current', function () {
             .patch("/api/users/current")
             .set("Authorization", "test")
             .send({
-                name: "Eko",
+                name: "Farid",
                 password: "rahasialagi"
             });
 
         expect(result.status).toBe(200);
         expect(result.body.data.username).toBe("test");
-        expect(result.body.data.name).toBe("Eko");
+        expect(result.body.data.name).toBe("Farid");
 
         const user = await getTestUser();
         expect(await bcrypt.compare("rahasialagi", user.password)).toBe(true);
@@ -199,12 +199,12 @@ describe('PATCH /api/users/current', function () {
             .patch("/api/users/current")
             .set("Authorization", "test")
             .send({
-                name: "Eko"
+                name: "Farid"
             });
 
         expect(result.status).toBe(200);
         expect(result.body.data.username).toBe("test");
-        expect(result.body.data.name).toBe("Eko");
+        expect(result.body.data.name).toBe("Farid");
     });
 
     it('should can update user password', async () => {
@@ -228,6 +228,36 @@ describe('PATCH /api/users/current', function () {
             .patch("/api/users/current")
             .set("Authorization", "salah")
             .send({});
+
+        expect(result.status).toBe(401);
+    });
+});
+
+describe('DELETE /api/users/logout', function () {
+    beforeEach(async () => {
+        await createTestUser();
+    });
+
+    afterEach(async () => {
+        await removeTestUser();
+    });
+
+    it('should can logout', async () => {
+        const result = await supertest(web)
+            .delete('/api/users/logout')
+            .set('Authorization', 'test');
+
+        expect(result.status).toBe(200);
+        expect(result.body.data).toBe("OK");
+
+        const user = await getTestUser();
+        expect(user.token).toBeNull();
+    });
+
+    it('should reject logout if token is invalid', async () => {
+        const result = await supertest(web)
+            .delete('/api/users/logout')
+            .set('Authorization', 'salah');
 
         expect(result.status).toBe(401);
     });
