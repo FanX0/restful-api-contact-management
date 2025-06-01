@@ -44,7 +44,7 @@ const update = async (req, res, next) => {
         res.status(200).json({
             data: result
             }
-        )
+        );
     } catch (e) {
         next(e);
     }
