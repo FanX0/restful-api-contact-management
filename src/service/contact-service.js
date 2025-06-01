@@ -18,6 +18,6 @@ const create = async (user, request) => {
     });
 }
 
-export {
+export default{
     create,
 }
