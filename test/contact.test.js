@@ -19,16 +19,16 @@ describe('POST /api/contacts', function () {
             .send({
                 first_name: "test",
                 last_name: "test",
-                email: "test@pzn.com",
-                phone: "08090000000"
+                email: "test@test.com",
+                phone: "086231312000"
             });
 
         expect(result.status).toBe(200);
         expect(result.body.data.id).toBeDefined();
         expect(result.body.data.first_name).toBe("test");
         expect(result.body.data.last_name).toBe("test");
-        expect(result.body.data.email).toBe("test@pzn.com");
-        expect(result.body.data.phone).toBe("08090000000");
+        expect(result.body.data.email).toBe("test@test.com");
+        expect(result.body.data.phone).toBe("086231312000");
     });
 
     it('should reject if request is not valid', async () => {
