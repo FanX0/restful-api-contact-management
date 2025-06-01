@@ -1,5 +1,10 @@
 import {validate} from "../validation/validation.js";
-import {registerUserValidation, loginUserValidation, getUserValidation} from "../validation/user-validation.js";
+import {
+    registerUserValidation,
+    loginUserValidation,
+    getUserValidation,
+    updateUserValidation
+} from "../validation/user-validation.js";
 import {prismaClient} from "../application/database.js";
 import {ResponseError} from "../error/response-error.js";
 import bcrypt from "bcrypt";
@@ -85,7 +90,7 @@ const get = async (username) => {
 }
 
 const update = async (request) => {
-    const user = validate(getUserValidation, request);
+    const user = validate(updateUserValidation, request);
 
     const totalUserInDatabase = await prismaClient.user.count({
         where: {
