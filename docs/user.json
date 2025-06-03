@@ -8,10 +8,16 @@
   "servers" : [ {
     "url" : "http://localhost:3000"
   } ],
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
   "paths" : {
     "/api/users" : {
       "post" : {
         "summary" : "Register a new user",
+        "security": [],
         "requestBody" : {
           "required" : true,
           "content" : {
@@ -52,6 +58,7 @@
     "/api/users/login" : {
       "post" : {
         "summary" : "Login user",
+        "security": [],
         "requestBody" : {
           "required" : true,
           "content" : {
@@ -238,6 +245,13 @@
     }
   },
   "components" : {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas" : {
       "RegisterUserRequest" : {
         "type" : "object",
