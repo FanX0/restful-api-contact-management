@@ -151,7 +151,7 @@ describe('GET /api/users/current', function () {
     it('should can get current user', async () => {
         const result = await supertest(web)
             .get('/api/users/current')
-            .set('Authorization', 'test');
+            .set('Authorization', 'Bearer test');
 
         expect(result.status).toBe(200);
         expect(result.body.data.username).toBe('test');
@@ -180,7 +180,7 @@ describe('PATCH /api/users/current', function () {
     it('should can update user', async () => {
         const result = await supertest(web)
             .patch("/api/users/current")
-            .set("Authorization", "test")
+            .set("Authorization", "Bearer test")
             .send({
                 name: "Farid",
                 password: "rahasialagi"
@@ -197,7 +197,7 @@ describe('PATCH /api/users/current', function () {
     it('should can update user name', async () => {
         const result = await supertest(web)
             .patch("/api/users/current")
-            .set("Authorization", "test")
+            .set("Authorization", "Bearer test")
             .send({
                 name: "Farid"
             });
@@ -210,7 +210,7 @@ describe('PATCH /api/users/current', function () {
     it('should can update user password', async () => {
         const result = await supertest(web)
             .patch("/api/users/current")
-            .set("Authorization", "test")
+            .set("Authorization", "Bearer test")
             .send({
                 password: "rahasialagi"
             });
@@ -245,7 +245,7 @@ describe('DELETE /api/users/logout', function () {
     it('should can logout', async () => {
         const result = await supertest(web)
             .delete('/api/users/logout')
-            .set('Authorization', 'test');
+            .set('Authorization', 'Bearer test');
 
         expect(result.status).toBe(200);
         expect(result.body.data).toBe("OK");

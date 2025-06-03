@@ -1,24 +1,28 @@
-import {prismaClient} from "../application/database.js";
+import { prismaClient } from "../application/database.js";
 
 export const authMiddleware = async (req, res, next) => {
-    const token = req.get('Authorization');
-    if (!token) {
-        res.status(401).json({
+    const authHeader = req.get('Authorization');
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({
             errors: "Unauthorized"
         }).end();
-    } else {
-        const user = await prismaClient.user.findFirst({
-            where: {
-                token: token
-            }
-        });
-        if (!user) {
-            res.status(401).json({
-                errors: "Unauthorized"
-            }).end();
-        } else {
-            req.user = user;
-            next();
-        }
     }
+
+    const token = authHeader.substring(7); // menghilangkan "Bearer " (7 karakter)
+
+    const user = await prismaClient.user.findFirst({
+        where: {
+            token: token
+        }
+    });
+
+    if (!user) {
+        return res.status(401).json({
+            errors: "Unauthorized"
+        }).end();
+    }
+
+    req.user = user;
+    next();
 }
