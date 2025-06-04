@@ -15,7 +15,7 @@ describe('POST /api/contacts', function () {
     it('should can create new contact', async () => {
         const result = await supertest(web)
             .post("/api/contacts")
-            .set('Authorization', 'test')
+            .set('Authorization', 'Bearer test')
             .send({
                 first_name: "test",
                 last_name: "test",
@@ -34,7 +34,7 @@ describe('POST /api/contacts', function () {
     it('should reject if request is not valid', async () => {
         const result = await supertest(web)
             .post("/api/contacts")
-            .set('Authorization', 'test')
+            .set('Authorization', 'Bearer test')
             .send({
                 first_name: "",
                 last_name: "test",
