@@ -56,9 +56,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "example": {
-                  "errors": "Country is required"
                 }
               }
             }
@@ -152,9 +149,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "example": {
-                  "errors": "Country is required"
                 }
               }
             }

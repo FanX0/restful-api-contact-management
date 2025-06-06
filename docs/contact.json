@@ -46,9 +46,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "example": {
-                  "errors": "Email is not valid format"
                 }
               }
             }
@@ -191,9 +188,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "example": {
-                  "errors": "Email is not valid format"
                 }
               }
             }
@@ -251,7 +245,7 @@
     "schemas": {
       "ContactRequest": {
         "type": "object",
-        "required": ["first_name", "last_name", "email", "phone"],
+        "required": ["first_name"],
         "properties": {
           "first_name": { "type": "string" },
           "last_name": { "type": "string" },
