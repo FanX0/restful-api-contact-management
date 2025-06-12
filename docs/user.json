@@ -1,45 +1,53 @@
 {
-  "openapi": "3.0.3",
-  "info": {
-    "title": "User API",
-    "description": "User Registration, Login, and Management API",
-    "version": "1.0.0"
+  "openapi" : "3.0.3",
+  "info" : {
+    "title" : "User API",
+    "description" : "API for user registration, authentication, and profile management",
+    "version" : "1.0.0"
   },
-  "servers": [
+  "servers" : [ {
+    "url" : "http://localhost:3000"
+  } ],
+  "security": [
     {
-      "url": "http://localhost:3000"
+      "BearerAuth": []
     }
   ],
-  "paths": {
-    "/api/users": {
-      "post": {
-        "summary": "Register user",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterUserRequest"
+  "paths" : {
+    "/api/users" : {
+      "post" : {
+        "summary" : "Register a new user",
+        "security": [],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RegisterUserRequest"
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "User registered successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RegisterUserResponse"
+        "responses" : {
+          "200" : {
+            "description" : "User registered successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RegisterUserResponse"
                 }
               }
             }
           },
-          "400": {
-            "description": "Username already registered",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+          "400" : {
+            "description" : "Username already registered",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                },
+                "example" : {
+                  "errors" : "Username already registered"
                 }
               }
             }
@@ -47,35 +55,40 @@
         }
       }
     },
-    "/api/users/login": {
-      "post": {
-        "summary": "Login user",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
+    "/api/users/login" : {
+      "post" : {
+        "summary" : "Login user",
+        "security": [],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LoginRequest"
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "Login success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+        "responses" : {
+          "200" : {
+            "description" : "Login successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LoginResponse"
                 }
               }
             }
           },
-          "401": {
-            "description": "Username or password wrong",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+          "401" : {
+            "description" : "Invalid username or password",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                },
+                "example" : {
+                  "errors" : "Invalid username or password"
                 }
               }
             }
@@ -83,71 +96,106 @@
         }
       }
     },
-    "/api/users/current": {
-      "get": {
-        "summary": "Get current user",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "User retrieved",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserResponse"
+    "/api/users/current" : {
+      "get" : {
+        "summary" : "Get current user details",
+        "responses" : {
+          "200" : {
+            "description" : "Current user data retrieved",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserResponse"
                 }
               }
             }
           },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+          "401" : {
+            "description" : "Unauthorized access",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                },
+                "example" : {
+                  "errors" : "Unauthorized access"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "User is not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                },
+                "example" : {
+                  "errors" : "User is not found"
                 }
               }
             }
           }
         }
       },
-      "patch": {
-        "summary": "Update current user",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserRequest"
+      "patch" : {
+        "summary" : "Update current user data",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateUserRequest"
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "User updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserResponse"
+        "responses" : {
+          "200" : {
+            "description" : "User data updated",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserResponse"
                 }
               }
             }
           },
-          "400": {
-            "description": "Validation error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+          "400" : {
+            "description" : "Invalid input",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                },
+                "example" : {
+                  "errors" : "Invalid Input"
                 }
               }
             }
           },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+          "401" : {
+            "description" : "Unauthorized access",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                },
+                "example" : {
+                  "errors" : "Unauthorized access"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "User is not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                },
+                "example" : {
+                  "errors" : "User is not found"
                 }
               }
             }
@@ -155,26 +203,39 @@
         }
       }
     },
-    "/api/users/logout": {
-      "delete": {
-        "summary": "Logout user",
-        "responses": {
-          "200": {
-            "description": "Logout success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LogoutResponse"
+    "/api/users/logout" : {
+      "delete" : {
+        "summary" : "Logout the current user",
+        "responses" : {
+          "200" : {
+            "description" : "Logout successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LogoutResponse"
                 }
               }
             }
           },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+          "401" : {
+            "description" : "Unauthorized access",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "User is not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                },
+                "example" : {
+                  "errors" : "User is not found"
                 }
               }
             }
@@ -183,77 +244,117 @@
       }
     }
   },
-  "components": {
-    "schemas": {
-      "RegisterUserRequest": {
-        "type": "object",
-        "properties": {
-          "username": { "type": "string" },
-          "password": { "type": "string" },
-          "name": { "type": "string" }
-        },
-        "required": ["username", "password", "name"]
+  "components" : {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas" : {
+      "RegisterUserRequest" : {
+        "type" : "object",
+        "required" : [ "username", "password", "name" ],
+        "properties" : {
+          "username" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        }
       },
-      "RegisterUserResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "object",
-            "properties": {
-              "username": { "type": "string" },
-              "name": { "type": "string" }
+      "RegisterUserResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "username" : {
+                "type" : "string"
+              },
+              "name" : {
+                "type" : "string"
+              }
             }
           }
         }
       },
-      "LoginRequest": {
-        "type": "object",
-        "properties": {
-          "username": { "type": "string" },
-          "password": { "type": "string" }
-        },
-        "required": ["username", "password"]
+      "LoginRequest" : {
+        "type" : "object",
+        "required" : [ "username", "password" ],
+        "properties" : {
+          "username" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          }
+        }
       },
-      "LoginResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "object",
-            "properties": {
-              "token": { "type": "string" }
+      "LoginResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "token" : {
+                "type" : "string"
+              }
             }
           }
         }
       },
-      "UpdateUserRequest": {
-        "type": "object",
-        "properties": {
-          "name": { "type": "string" },
-          "password": { "type": "string" }
+      "UpdateUserRequest" : {
+        "type" : "object",
+        "properties" : {
+          "username" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          }
         }
       },
-      "UserResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "object",
-            "properties": {
-              "username": { "type": "string" },
-              "name": { "type": "string" }
+      "UserResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "username" : {
+                "type" : "string"
+              },
+              "name" : {
+                "type" : "string"
+              }
             }
           }
         }
       },
-      "LogoutResponse": {
-        "type": "object",
-        "properties": {
-          "data": { "type": "string", "example": "OK" }
+      "LogoutResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "example" : "OK"
+          }
         }
       },
-      "ErrorResponse": {
-        "type": "object",
-        "properties": {
-          "errors": { "type": "string" }
+      "ErrorResponse" : {
+        "type" : "object",
+        "properties" : {
+          "errors" : {
+            "type" : "string",
+            "example" : "Error message describing the issue"
+          }
         }
       }
     }

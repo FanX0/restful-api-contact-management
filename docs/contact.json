@@ -1,150 +1,232 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "User API",
-    "version": "1.0.0",
-    "description": "API for managing users"
+    "title": "Contact API",
+    "description": "API for managing contacts including create, update, retrieve, search and delete",
+    "version": "1.0.0"
   },
   "servers": [
     {
       "url": "http://localhost:3000"
     }
   ],
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
   "paths": {
-    "/api/users": {
+    "/api/contacts": {
       "post": {
-        "summary": "Register User",
+        "summary": "Create a new contact",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/RegisterRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/ContactRequest"
+              }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "User registered successfully",
+            "description": "Contact created successfully",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/UserResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/ContactResponse"
+                }
               }
             }
           },
           "400": {
-            "description": "Username already registered",
+            "description": "Invalid contact data",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/users/login": {
-      "post": {
-        "summary": "Login User",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/LoginRequest" }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Login successful",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/LoginResponse" }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid credentials",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/users/current": {
-      "get": {
-        "summary": "Get Current User",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": {
-            "description": "Current user data",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/UserResponse" }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
               }
             }
           }
         }
       },
-      "patch": {
-        "summary": "Update Current User",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/UpdateRequest" }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "User updated successfully",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/UserResponse" }
-              }
+      "get": {
+        "summary": "Search contacts",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search by first_name or last_name (optional)"
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search by email (optional)"
+          },
+          {
+            "in": "query",
+            "name": "phone",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search by phone (optional)"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
             }
           },
-          "400": {
-            "description": "Validation error",
+          {
+            "in": "query",
+            "name": "size",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contacts retrieved successfully",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/SearchContactResponse"
+                }
               }
             }
           }
         }
       }
     },
-    "/api/users/logout": {
-      "delete": {
-        "summary": "Logout User",
-        "security": [{ "bearerAuth": [] }],
+    "/api/contacts/{id}": {
+      "get": {
+        "summary": "Get a contact by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Logout successful",
+            "description": "Contact data retrieved",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/DeleteResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/ContactResponse"
+                }
               }
             }
           },
-          "401": {
-            "description": "Unauthorized",
+          "404": {
+            "description": "Contact not found",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errors": "Contact is not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a contact by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Contact updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid contact data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a contact by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contact deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contact not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errors": "Contact is not found"
+                }
               }
             }
           }
@@ -154,61 +236,56 @@
   },
   "components": {
     "securitySchemes": {
-      "bearerAuth": {
+      "BearerAuth": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }
     },
     "schemas": {
-      "RegisterRequest": {
+      "ContactRequest": {
         "type": "object",
-        "required": ["username", "password", "name"],
+        "required": ["first_name"],
         "properties": {
-          "username": { "type": "string" },
-          "password": { "type": "string" },
-          "name": { "type": "string" }
+          "first_name": { "type": "string" },
+          "last_name": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "phone": { "type": "string" }
         }
       },
-      "LoginRequest": {
-        "type": "object",
-        "required": ["username", "password"],
-        "properties": {
-          "username": { "type": "string" },
-          "password": { "type": "string" }
-        }
-      },
-      "UpdateRequest": {
-        "type": "object",
-        "properties": {
-          "name": { "type": "string", "maxLength": 100 },
-          "password": { "type": "string" }
-        }
-      },
-      "UserResponse": {
+      "ContactResponse": {
         "type": "object",
         "properties": {
           "data": {
             "type": "object",
             "properties": {
-              "username": { "type": "string" },
-              "name": { "type": "string" }
+              "id": { "type": "integer" },
+              "first_name": { "type": "string" },
+              "last_name": { "type": "string" },
+              "email": { "type": "string" },
+              "phone": { "type": "string" }
             }
           }
         }
       },
-      "LoginResponse": {
+      "SearchContactResponse": {
         "type": "object",
         "properties": {
           "data": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ContactResponse/properties/data" }
+          },
+          "paging": {
             "type": "object",
             "properties": {
-              "token": { "type": "string" }
+              "page": { "type": "integer" },
+              "total_page": { "type": "integer" },
+              "total_item": { "type": "integer" }
             }
           }
         }
       },
-      "DeleteResponse": {
+      "SuccessResponse": {
         "type": "object",
         "properties": {
           "data": {
@@ -220,7 +297,10 @@
       "ErrorResponse": {
         "type": "object",
         "properties": {
-          "errors": { "type": "string" }
+          "errors": {
+            "type": "string",
+            "example": "Error message describing the issue"
+          }
         }
       }
     }

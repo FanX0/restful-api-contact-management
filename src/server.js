@@ -1,4 +1,4 @@
-import { web } from "./src/application/web.js"
+import { web } from "./application/web.js"
 
 const PORT = process.env.PORT || 3000;
 

@@ -2,7 +2,7 @@
   "name": "contact-management-restfulapi",
   "version": "1.0.0",
   "description": "\"Contact Management Restful API\"",
-  "main": "main.js",
+  "main": "src/server.js",
   "scripts": {
     "test": "jest -i"
   },
